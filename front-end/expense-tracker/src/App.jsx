@@ -1,19 +1,20 @@
+// App.jsx
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Expense from "./pages/Dashboard/Expense";
-import Income from "./pages/Dashboard/Income";
-import Home from "./pages/Dashboard/Home";
-import SignUp from "./pages/Auth/SignUp";
-import Login from "./pages/Auth/Login";
+import Expense from "./pages/Dashboard/Expense.jsx";
+import Income from "./pages/Dashboard/Income.jsx";
+import Home from "./pages/Dashboard/Home.jsx";
+import SignUp from "./pages/Auth/SignUp.jsx";
+import Login from "./pages/Auth/Login.jsx";
 import { ToastContainer } from "react-toastify";
-import UserProvider from "./context/userContext";
+import "react-toastify/dist/ReactToastify.css";
+import UserProvider from "./context/userContext.jsx";
 
 const App = () => {
   return (
     <UserProvider>
       <BrowserRouter>
-        <ToastContainer />
-
+        <ToastContainer position="top-right" autoClose={3000} />
         <Routes>
           <Route path="/" element={<Root />} />
           <Route path="/login" element={<Login />} />
@@ -29,12 +30,15 @@ const App = () => {
 
 export default App;
 
-// ✅ Root route redirect logic
+// ✅ Root redirect logic
 const Root = () => {
-  const isAuthenticated = !!localStorage.getItem("token");
-  return isAuthenticated ? (
-    <Navigate to="/dashboard" replace />
-  ) : (
-    <Navigate to="/login" replace />
-  );
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    // 🔹 Token nahi hai to login page par redirect kar do
+    return <Navigate to="/login" replace />;
+  }
+
+  // 🔹 Agar token mil gaya to dashboard par le jao
+  return <Navigate to="/dashboard" replace />;
 };

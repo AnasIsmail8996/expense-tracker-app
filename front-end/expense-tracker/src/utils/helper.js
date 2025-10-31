@@ -1,3 +1,5 @@
+
+
 export const validateEmail = (email) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
   return regex.test(String(email).trim());
@@ -40,6 +42,23 @@ export const prepareIncomeBarChart = (data = []) => {
     month: moment(item?.date).format("Do MMM"),
     amount: item?.amount,
     source: item?.source || "Unknown",
+  }));
+
+  return chartData;
+};
+
+
+export const PrepareExpenseLineChartData = (data = []) => {
+
+  const sortedData = [...data].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  
+  const chartData = sortedData.map((item) => ({
+    month: moment(item?.date).format("Do MMM"),
+    amount: item?.amount,
+    category: item?.category || "Uncategorized",
   }));
 
   return chartData;

@@ -13,6 +13,7 @@ const TransactionInfoCard = ({
   amount,
   type,
   hideDeleteBtn = false,
+  
 }) => {
   // Choose default icon based on transaction type
   const renderDefaultIcon = () => {
